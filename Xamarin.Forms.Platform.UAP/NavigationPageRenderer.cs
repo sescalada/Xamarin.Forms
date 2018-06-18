@@ -158,7 +158,6 @@ namespace Xamarin.Forms.Platform.UWP
 					_container = new PageControl();
 					_container.PointerPressed += OnPointerPressed;
 					_container.SizeChanged += OnNativeSizeChanged;
-					_container.BackClicked += OnBackClicked;
 
 					Tracker = new BackgroundTracker<PageControl>(Control.BackgroundProperty) { Element = (Page)element, Container = _container };
 
@@ -208,7 +207,6 @@ namespace Xamarin.Forms.Platform.UWP
 
 			_container.PointerPressed -= OnPointerPressed;
 			_container.SizeChanged -= OnNativeSizeChanged;
-			_container.BackClicked -= OnBackClicked;
 			_container.Loaded -= OnLoaded;
 			_container.Unloaded -= OnUnloaded;
 
