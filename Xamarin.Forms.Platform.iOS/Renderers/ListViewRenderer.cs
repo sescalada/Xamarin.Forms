@@ -530,6 +530,11 @@ namespace Xamarin.Forms.Platform.iOS
 			if (exArgs != null)
 				_dataSource.Counts[section] = exArgs.Count;
 
+			// This means the UITableView hasn't rendered any cells yet
+			// so there's no need to synchronize the rows on the UITableView
+			if (Control.IndexPathsForVisibleRows == null)
+				return;
+
 			var groupReset = resetWhenGrouped && Element.IsGroupingEnabled;
 
 			if (!groupReset)
@@ -988,7 +993,7 @@ namespace Xamarin.Forms.Platform.iOS
 				var renderer = (CellRenderer)Internals.Registrar.Registered.GetHandlerForObject<IRegisterable>(cell);
 				view = new HeaderWrapperView { Cell = cell };
 				view.AddSubview(renderer.GetCell(cell, null, tableView));
-        
+
 				return view;
 			}
 
@@ -1115,8 +1120,8 @@ namespace Xamarin.Forms.Platform.iOS
 
 				if (_isDragging && scrollView.ContentOffset.Y < -10f && _uiTableViewController._usingLargeTitles && Device.Info.CurrentOrientation.IsPortrait())
 				{
-					_uiTableViewController.ForceRefreshing();				
-				}					
+					_uiTableViewController.ForceRefreshing();
+				}
 			}
 
 			public override string[] SectionIndexTitles(UITableView tableView)
@@ -1350,7 +1355,7 @@ namespace Xamarin.Forms.Platform.iOS
 			{
 				if (RefreshControl == null)
 					return;
-				
+
 				_refresh.EndRefreshing();
 
 				UpdateContentOffset(-1);
